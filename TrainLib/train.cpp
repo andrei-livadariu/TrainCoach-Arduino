@@ -1,7 +1,7 @@
 #include "train.h"
 
 Train::Train(int pin, TrainColor color, TrainChannel channel)
-    : _motor(pin), _color(color), _channel(channel), _speed(TrainSpeed::Four), _direction(TrainDirection::Forward)
+    : _motor(pin), _color(color), _channel(channel)
 {}
 
 void Train::start(TrainSpeed speed, TrainDirection direction)

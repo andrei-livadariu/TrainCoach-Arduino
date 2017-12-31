@@ -47,8 +47,8 @@ class Train
 
     private:
         LEGOPowerFunctions _motor;
-        TrainColor _color;
-        TrainChannel _channel;
+        const TrainColor _color;
+        const TrainChannel _channel;
         TrainSpeed _speed = TrainSpeed::Four;
         TrainDirection _direction = TrainDirection::Forward;
 };

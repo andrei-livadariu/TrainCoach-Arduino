@@ -2,7 +2,9 @@
 
 LightSensor::LightSensor(int pin, int threshold)
     : _pin(pin), _threshold(threshold)
-{}
+{
+    pinMode(_pin, INPUT);
+}
 
 void LightSensor::loop()
 {

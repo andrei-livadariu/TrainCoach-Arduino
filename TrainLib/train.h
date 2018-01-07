@@ -33,7 +33,7 @@ enum class TrainDirection {
 class Train
 {
     public:
-        Train(int pin, TrainColor color, TrainChannel channel);
+        Train(byte pin, TrainColor color, TrainChannel channel);
         
         void start(TrainSpeed speed, TrainDirection direction);
         void start(TrainSpeed speed);

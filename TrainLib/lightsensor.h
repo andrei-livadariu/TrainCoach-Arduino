@@ -6,7 +6,7 @@
 class LightSensor
 {
     public:
-        LightSensor(int pin, int threshold);
+        LightSensor(byte pin, int threshold);
 
         void loop();
         
@@ -18,7 +18,7 @@ class LightSensor
         bool isJustChanged();
 
     private:
-        const int _pin;
+        const byte _pin;
         const int _threshold;
         bool _isCovered = false;
         bool _wasCovered = false;

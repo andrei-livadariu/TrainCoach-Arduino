@@ -1,6 +1,6 @@
 #include "train.h"
 
-Train::Train(int pin, TrainColor color, TrainChannel channel)
+Train::Train(byte pin, TrainColor color, TrainChannel channel)
     : _motor(pin), _color(color), _channel(channel)
 {}
 

@@ -1,6 +1,6 @@
 #include "lightsensor.h"
 
-LightSensor::LightSensor(int pin, int threshold)
+LightSensor::LightSensor(byte pin, int threshold)
     : _pin(pin), _threshold(threshold)
 {
     pinMode(_pin, INPUT);

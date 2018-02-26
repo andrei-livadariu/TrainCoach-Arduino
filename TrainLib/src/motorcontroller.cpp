@@ -52,55 +52,9 @@ void MotorController::start()
     _isRunning = true;
 }
 
-void MotorController::start(byte speed)
-{
-    setSpeed(speed);
-    start();
-}
-
-void MotorController::start(MotorDirection direction)
-{
-    setDirection(direction);
-    start();
-}
-
-void MotorController::start(byte speed, MotorDirection direction)
-{
-    setSpeed(speed);
-    setDirection(direction);
-    start();
-}
-
 void MotorController::stop()
 {
     digitalWrite(_in1, LOW);
     digitalWrite(_in2, LOW);
     _isRunning = false;
-}
-
-void MotorController::forward()
-{
-    start(MotorDirection::Forward);
-}
-
-void MotorController::forward(byte speed)
-{
-    setSpeed(speed);
-    forward();
-}
-
-void MotorController::backward()
-{
-    start(MotorDirection::Backward);
-}
-
-void MotorController::backward(byte speed)
-{
-    setSpeed(speed);
-    backward();
-}
-
-void MotorController::reverse()
-{
-    setDirection(_direction == MotorDirection::Forward ? MotorDirection::Backward : MotorDirection::Forward);
 }

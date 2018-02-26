@@ -2,39 +2,23 @@
 #define TRAINLIB_MOTORCONTROLLER_H
 
 #include <Arduino.h>
+#include "imotor.h"
 
-enum class MotorDirection {
-    Forward = 1,
-    Backward = -1,
-};
-
-class MotorController
+class MotorController : public IMotor
 {
     public:
         MotorController(byte in1, byte in2, byte ena);
 
-        byte getSpeed();
-        void setSpeed(byte speed);
+        byte getSpeed() override;
+        void setSpeed(byte speed) override;
 
-        MotorDirection getDirection();
-        void setDirection(MotorDirection direction);
+        MotorDirection getDirection() override;
+        void setDirection(MotorDirection direction) override;
 
-        bool isRunning();
+        bool isRunning() override;
 
-        void start();
-        void start(byte speed);
-        void start(MotorDirection direction);
-        void start(byte speed, MotorDirection direction);
-
-        void stop();
-
-        void forward();
-        void forward(byte speed);
-
-        void backward();
-        void backward(byte speed);
-
-        void reverse();
+        void start() override;
+        void stop() override;
 
     private:
         const byte _in1;

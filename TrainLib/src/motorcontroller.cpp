@@ -28,6 +28,9 @@ MotorDirection MotorController::getDirection()
 void MotorController::setDirection(MotorDirection direction)
 {
     _direction = direction;
+    if (isRunning()) {
+        start();
+    }
 }
 
 bool MotorController::isRunning()

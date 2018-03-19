@@ -10,12 +10,37 @@ void LightSensor::loop()
 {
     _wasCovered = _isCovered;
 
+    if (isSleeping()) {
+        return;
+    }
+    wake();
+
     int lightValue = analogRead(_pin);
     if (lightValue > _threshold) {
         clear();
     } else {
         cover();
     }
+}
+
+bool LightSensor::isSleeping()
+{
+    return _sleepTimeout && millis() <= _sleepTimeout;
+}
+
+void LightSensor::sleep()
+{
+    sleep(0xFFFFFFFF);
+}
+
+void LightSensor::sleep(unsigned long time)
+{
+    _sleepTimeout = millis() + time;
+}
+
+void LightSensor::wake()
+{
+    _sleepTimeout = 0;
 }
 
 bool LightSensor::isClear()

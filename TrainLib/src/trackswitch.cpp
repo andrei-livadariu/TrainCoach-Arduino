@@ -53,6 +53,7 @@ void TrackSwitch::loop()
 {
     if (_stopTimeout && millis() > _stopTimeout) {
         _motor.stop();
+        _stopTimeout = 0;
     }
 }
 

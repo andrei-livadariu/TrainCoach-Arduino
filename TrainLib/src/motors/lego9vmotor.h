@@ -8,6 +8,7 @@ class Lego9VMotor : public IMotor
 {
     public:
         Lego9VMotor(byte c1, byte c2);
+        Lego9VMotor(byte c1, byte c2, byte speed);
 
         byte getSpeed() override;
         void setSpeed(byte speed) override;
@@ -21,11 +22,13 @@ class Lego9VMotor : public IMotor
         void stop() override;
 
     private:
+        static const byte DefaultSpeed = 255;
+
         const byte _c1;
         const byte _c2;
 
         MotorDirection _direction = MotorDirection::Forward;
-        byte _speed = 255;
+        byte _speed;
         bool _isRunning = false;
 };
 

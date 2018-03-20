@@ -8,6 +8,7 @@ class MotorController : public IMotor
 {
     public:
         MotorController(byte in1, byte in2, byte ena);
+        MotorController(byte in1, byte in2, byte ena, byte speed);
 
         byte getSpeed() override;
         void setSpeed(byte speed) override;
@@ -21,12 +22,14 @@ class MotorController : public IMotor
         void stop() override;
 
     private:
+        static const byte DefaultSpeed = 255;
+
         const byte _in1;
         const byte _in2;
         const byte _ena;
 
         MotorDirection _direction = MotorDirection::Forward;
-        byte _speed = 255;
+        byte _speed;
         bool _isRunning = false;
 };
 

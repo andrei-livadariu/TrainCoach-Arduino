@@ -1,7 +1,11 @@
 #include "motorcontroller.h"
 
 MotorController::MotorController(byte in1, byte in2, byte ena)
-    : _in1(in1), _in2(in2), _ena(ena)
+    : MotorController(in1, in2, ena, MotorController::DefaultSpeed)
+{}
+
+MotorController::MotorController(byte in1, byte in2, byte ena, byte speed)
+    : _in1(in1), _in2(in2), _ena(ena), _speed(speed)
 {
     pinMode(_in1, OUTPUT);
     pinMode(_in2, OUTPUT);

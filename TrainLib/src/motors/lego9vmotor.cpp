@@ -1,7 +1,11 @@
 #include "lego9vmotor.h"
 
 Lego9VMotor::Lego9VMotor(byte c1, byte c2)
-    : _c1(c1), _c2(c2)
+    : _c1(c1), _c2(c2), _speed(Lego9VMotor::DefaultSpeed)
+{}
+
+Lego9VMotor::Lego9VMotor(byte c1, byte c2, byte speed)
+    : _c1(c1), _c2(c2), _speed(speed)
 {
     pinMode(_c1, OUTPUT);
     pinMode(_c2, OUTPUT);
@@ -15,6 +19,9 @@ byte Lego9VMotor::getSpeed()
 void Lego9VMotor::setSpeed(byte speed)
 {
     _speed = speed;
+    if (isRunning()) {
+        start();
+    }
 }
 
 MotorDirection Lego9VMotor::getDirection()

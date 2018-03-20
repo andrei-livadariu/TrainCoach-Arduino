@@ -1,9 +1,9 @@
 #ifndef TRAINLIB_MERGER_H
 #define TRAINLIB_MERGER_H
 
-#include "train.h"
-#include "lightsensor.h"
-#include "semaphore.h"
+#include "trains\train.h"
+#include "sensors\lightsensor.h"
+#include "signals\semaphore.h"
 
 struct MergerTrack
 {

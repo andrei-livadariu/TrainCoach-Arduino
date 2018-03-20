@@ -1,7 +1,8 @@
 #include <Reactduino.h>
 
-#include <train.h>
-#include <semaphore.h>
+#include <TrainLib.h>
+#include <trains\train.h>
+#include <signals\semaphore.h>
 
 Train trainLeft(3, TrainColor::Blue, TrainChannel::One);
 Train trainRight(5, TrainColor::Red, TrainChannel::One);

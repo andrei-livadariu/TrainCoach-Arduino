@@ -2,7 +2,7 @@
 #define TRAINLIB_LEGO9VMOTOR_H
 
 #include <Arduino.h>
-#include "imotor.h"
+#include "motors\imotor.h"
 
 class Lego9VMotor : public IMotor
 {

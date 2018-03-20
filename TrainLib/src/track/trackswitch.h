@@ -1,7 +1,7 @@
 #ifndef TRAINLIB_TRACKSWITCH_H
 #define TRAINLIB_TRACKSWITCH_H
 
-#include "imotor.h"
+#include "motors\imotor.h"
 
 class TrackSwitch
 {

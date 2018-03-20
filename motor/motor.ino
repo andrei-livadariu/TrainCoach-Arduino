@@ -1,5 +1,7 @@
 #include <Reactduino.h>
-#include <motorcontroller.h>
+
+#include <TrainLib.h>
+#include <motors\motorcontroller.h>
 
 MotorController motor(8, 7, 9);
 

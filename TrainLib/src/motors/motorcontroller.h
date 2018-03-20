@@ -2,7 +2,7 @@
 #define TRAINLIB_MOTORCONTROLLER_H
 
 #include <Arduino.h>
-#include "imotor.h"
+#include "motors\imotor.h"
 
 class MotorController : public IMotor
 {

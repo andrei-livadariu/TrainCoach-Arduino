@@ -1,7 +1,10 @@
 #include <Reactduino.h>
-#include <motorcontroller.h>
-#include <lightsensor.h>
-#include <trackswitch.h>
+
+#include <TrainLib.h>
+#include <motors\motorcontroller.h>
+#include <sensors\lightsensor.h>
+#include <track\trackswitch.h>
+#include <track\checkpoint.h>
 
 LightSensor lightSensor(A0, 200);
 MotorController motor(7, 8, 9);

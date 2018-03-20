@@ -1,9 +1,10 @@
 #include <Reactduino.h>
 
-#include <train.h>
-#include <lightsensor.h>
-#include <semaphore.h>
-#include <merger.h>
+#include <TrainLib.h>
+#include <trains\train.h>
+#include <sensors\lightsensor.h>
+#include <signals\semaphore.h>
+#include <track\merger.h>
 
 Train trainLeft(3, TrainColor::Blue, TrainChannel::One);
 Train trainRight(5, TrainColor::Red, TrainChannel::One);

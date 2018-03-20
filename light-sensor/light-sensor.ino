@@ -1,7 +1,8 @@
 #include <Reactduino.h>
 
-#include <train.h>
-#include <lightsensor.h>
+#include <TrainLib.h>
+#include <trains\train.h>
+#include <sensors\lightsensor.h>
 
 Train train(8, TrainColor::Red, TrainChannel::One);
 LightSensor sensor(A0, 100);

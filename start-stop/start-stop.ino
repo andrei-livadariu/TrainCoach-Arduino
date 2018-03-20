@@ -1,6 +1,7 @@
 #include <Reactduino.h>
 
-#include <train.h>
+#include <TrainLib.h>
+#include <trains\train.h>
 
 Train train(8, TrainColor::Red, TrainChannel::One);
 

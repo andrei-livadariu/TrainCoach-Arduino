@@ -2,6 +2,7 @@
 #define TRAINLIB_LIGHTSENSOR_H
 
 #include <Arduino.h>
+#include "trains\train.h"
 
 class LightSensor
 {
@@ -9,6 +10,8 @@ class LightSensor
         LightSensor(byte pin, int threshold);
 
         void loop();
+
+        Train* getTrain();
         
         bool isSleeping();
         void sleep();

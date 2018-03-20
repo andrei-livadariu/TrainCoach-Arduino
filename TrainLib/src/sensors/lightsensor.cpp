@@ -23,6 +23,11 @@ void LightSensor::loop()
     }
 }
 
+Train* LightSensor::getTrain()
+{
+    return nullptr;
+}
+
 bool LightSensor::isSleeping()
 {
     return _sleepTimeout && millis() <= _sleepTimeout;
@@ -36,6 +41,7 @@ void LightSensor::sleep()
 void LightSensor::sleep(unsigned long time)
 {
     _sleepTimeout = millis() + time;
+    _isCovered = false;
 }
 
 void LightSensor::wake()

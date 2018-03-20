@@ -2,10 +2,14 @@
 
 #include <TrainLib.h>
 #include <trains\train.h>
+#include <motors\legoinfraredmotor.h>
 #include <signals\semaphore.h>
 
-Train trainLeft(3, TrainColor::Blue, TrainChannel::One);
-Train trainRight(5, TrainColor::Red, TrainChannel::One);
+LegoInfraRedMotor trainLeftMotor(3, InfraRedColor::Blue, InfraRedChannel::One);
+Train trainLeft(trainLeftMotor);
+
+LegoInfraRedMotor trainRightMotor(5, InfraRedColor::Red, InfraRedChannel::One);
+Train trainRight(trainRightMotor);
 
 Semaphore semaphoreLeft(2);
 Semaphore semaphoreRight(4);

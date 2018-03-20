@@ -1,56 +1,41 @@
 #ifndef TRAINLIB_TRAIN_H
 #define TRAINLIB_TRAIN_H
 
-#include <legopowerfunctions.h>
+#include "motors\imotor.h"
 
-enum class TrainColor {
-    Red = RED,
-    Blue = BLUE,
-};
+struct TrainInfo
+{
+    static const TrainInfo blankInfo;
 
-enum class TrainChannel {
-    One = CH1,
-    Two = CH2,
-    Three = CH3,
-    Four = CH4,
-};
+    byte length;
+    byte weight;
+    byte nrCars;
 
-enum class TrainSpeed {
-    One = PWM_FWD1,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven
-};
+    TrainInfo()
+        : TrainInfo(0, 0, 0)
+    {}
 
-enum class TrainDirection {
-    Forward = 1,
-    Backward = -1,
+    TrainInfo(byte length, byte weight, byte nrCars)
+        : length(length), weight(weight), nrCars(nrCars)
+    {}
 };
 
 class Train
 {
     public:
-        Train(byte pin, TrainColor color, TrainChannel channel);
+        Train(IMotor &motor);
+        Train(TrainInfo &info, IMotor &motor);
         
-        void start(TrainSpeed speed, TrainDirection direction);
-        void start(TrainSpeed speed);
-        void start();
+        IMotor& getMotor();
+        const TrainInfo& getInfo();
 
-        void forward(TrainSpeed speed);
-        void backward(TrainSpeed speed);
-        
+        void start();
         void stop();
         void reverse();
 
     private:
-        LEGOPowerFunctions _motor;
-        const TrainColor _color;
-        const TrainChannel _channel;
-        TrainSpeed _speed = TrainSpeed::Four;
-        TrainDirection _direction = TrainDirection::Forward;
+        const TrainInfo &_info;
+        IMotor &_motor;
 };
 
 #endif

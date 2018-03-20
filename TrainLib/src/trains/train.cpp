@@ -1,44 +1,36 @@
 #include "train.h"
 
-Train::Train(byte pin, TrainColor color, TrainChannel channel)
-    : _motor(pin), _color(color), _channel(channel)
+const TrainInfo TrainInfo::blankInfo;
+
+Train::Train(IMotor &motor)
+    : _info(TrainInfo::blankInfo), _motor(motor)
 {}
 
-void Train::start(TrainSpeed speed, TrainDirection direction)
-{
-    int step = (16 + (int) speed * (int) direction) % 16;
+Train::Train(TrainInfo &info, IMotor &motor)
+    : _info(info), _motor(motor)
+{}
 
-    _motor.SingleOutput(0, step, (int) _color, (int) _channel);
-    _speed = speed;
-    _direction = direction;
+const TrainInfo& Train::getInfo()
+{
+    return _info;
 }
 
-void Train::start(TrainSpeed speed)
+IMotor& Train::getMotor()
 {
-    this->start(speed, _direction);
+    return _motor;
 }
 
 void Train::start()
 {
-    this->start(_speed, _direction);
-}
-
-void Train::forward(TrainSpeed speed)
-{
-    this->start(speed, TrainDirection::Forward);
-}
-
-void Train::backward(TrainSpeed speed)
-{
-    this->start(speed, TrainDirection::Backward);
+    _motor.start();
 }
 
 void Train::stop()
 {
-    _motor.SingleOutput(0, PWM_FLT, (int) _color, (int) _channel);
+    _motor.stop();
 }
 
 void Train::reverse()
 {
-    _direction = _direction == TrainDirection::Forward ? TrainDirection::Backward : TrainDirection::Forward;
+    _motor.reverse();
 }

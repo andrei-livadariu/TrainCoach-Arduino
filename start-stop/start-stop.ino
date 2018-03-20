@@ -2,11 +2,13 @@
 
 #include <TrainLib.h>
 #include <trains\train.h>
+#include <motors\legoinfraredmotor.h>
 
-Train train(8, TrainColor::Red, TrainChannel::One);
+LegoInfraRedMotor trainMotor(8, InfraRedColor::Red, InfraRedChannel::One, LegoInfraRedMotor::SpeedOne);
+Train train(trainMotor);
 
 Reactduino app([] {
-  train.forward(TrainSpeed::One);
+  train.start();
   app.repeat(22000, [] { 
     train.start();
     app.delay(10000, [] {

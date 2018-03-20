@@ -1,6 +1,7 @@
 #include <Reactduino.h>
 
 #include <TrainLib.h>
+#include <motors\legoinfraredmotor.h>
 #include <trains\train.h>
 #include <sensors\lightsensor.h>
 #include <signals\semaphore.h>
@@ -8,8 +9,11 @@
 #include <motors\motorcontroller.h>
 #include <track\trackswitch.h>
 
-Train passengerTrain(3, TrainColor::Blue, TrainChannel::One);
-Train cargoTrain(5, TrainColor::Red, TrainChannel::One);
+LegoInfraRedMotor passengerTrainMotor(3, InfraRedColor::Blue, InfraRedChannel::One);
+LegoInfraRedMotor cargoTrainMotor(5, InfraRedColor::Red, InfraRedChannel::One);
+
+Train passengerTrain(passengerTrainMotor);
+Train cargoTrain(cargoTrainMotor);
 
 LightSensor sensorCargo(A0, 200);
 LightSensor sensorPassenger(A1, 200);
@@ -25,8 +29,8 @@ MotorController motor(7, 8, 9);
 TrackSwitch trackSwitch(motor);
 
 Reactduino app([] {
-  passengerTrain.forward(TrainSpeed::Three);
-  cargoTrain.forward(TrainSpeed::Four);
+  passengerTrain.getMotor().forward(LegoInfraRedMotor::SpeedThree);
+  cargoTrain.getMotor().forward(LegoInfraRedMotor::SpeedFour);
 
   app.onTick([] {
     trackSwitch.loop();

@@ -2,13 +2,15 @@
 
 #include <TrainLib.h>
 #include <trains\train.h>
+#include <motors\legoinfraredmotor.h>
 #include <sensors\lightsensor.h>
 
-Train train(8, TrainColor::Red, TrainChannel::One);
+LegoInfraRedMotor trainMotor(8, InfraRedColor::Red, InfraRedChannel::One, LegoInfraRedMotor::SpeedTwo);
+Train train(trainMotor);
 LightSensor sensor(A0, 100);
 
 Reactduino app([] {
-  train.forward(TrainSpeed::Two);
+  train.start();
 
   app.onTick([] {
     sensor.loop();

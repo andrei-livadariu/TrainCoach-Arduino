@@ -5,28 +5,40 @@
 #include <sensors\lightsensor.h>
 #include <signals\semaphore.h>
 #include <track\merger.h>
+#include <motors\motorcontroller.h>
+#include <track\trackswitch.h>
 
-Train trainLeft(3, TrainColor::Blue, TrainChannel::One);
-Train trainRight(5, TrainColor::Red, TrainChannel::One);
+Train passengerTrain(3, TrainColor::Blue, TrainChannel::One);
+Train cargoTrain(5, TrainColor::Red, TrainChannel::One);
 
-LightSensor sensorLeft(A0, 200);
-LightSensor sensorRight(A1, 200);
+LightSensor sensorCargo(A0, 200);
+LightSensor sensorPassenger(A1, 200);
 
-Semaphore semaphoreLeft(2);
-Semaphore semaphoreRight(4);
+Checkpoint cargoTrack(sensorCargo, &cargoTrain);
+Checkpoint passengerTrack(sensorPassenger, &passengerTrain);
 
-MergerTrack tracks[2] = {
-  {trainLeft, sensorLeft, semaphoreLeft},
-  {trainRight, sensorRight, semaphoreRight},
-};
+Checkpoint *tracks[2] = {&passengerTrack, &cargoTrack};
 
-Merger merger(tracks, 2);
+Merger merger(tracks, 2, 15000);
+
+MotorController motor(7, 8, 9);
+TrackSwitch trackSwitch(motor);
 
 Reactduino app([] {
   Serial.begin(9600);
   app.onTick([] {
-    sensorLeft.loop();
-    sensorRight.loop();
+    trackSwitch.loop();
+    cargoTrack.loop();
+    passengerTrack.loop();
     merger.loop();
+
+    if (merger.isJustAllowing()) {
+      Train* train = merger.getLastTrain();
+      if (train == &passengerTrain) {
+        trackSwitch.flipTo(0);
+      } else if (train == &cargoTrain) {
+        trackSwitch.flipTo(1);
+      }
+    }
   });
 });

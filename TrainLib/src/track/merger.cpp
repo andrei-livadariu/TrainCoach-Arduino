@@ -1,45 +1,91 @@
 #include "merger.h"
 
-Merger::Merger(MergerTrack tracks[], byte nrTracks)
+Merger::Merger(Checkpoint *tracks[], byte nrTracks)
     : Merger(tracks, nrTracks, Merger::DefaultLockTime)
 {}
 
-Merger::Merger(MergerTrack tracks[], byte nrTracks, unsigned long lockTime)
+Merger::Merger(Checkpoint *tracks[], byte nrTracks, unsigned long lockTime)
     : _tracks(tracks), _nrTracks(nrTracks), _lockTime(lockTime)
 {}
 
+Train* Merger::getLastTrain()
+{
+    return _lastTrain;
+}
+
 void Merger::loop()
 {
-    if (_unlockTimeout && millis() > _unlockTimeout) {
-        unlockSemaphores();
-        _unlockTimeout = 0;
+    _wasAllowing = _isAllowing;
+
+    if (_canUnlock()) {
+        _unlock();
     }
 
     for (byte i = 0; i < _nrTracks; ++i) {
-        if (_tracks[i].sensor.isCovered()) {
-            if (!_unlockTimeout) {
-                _unlockTimeout = millis() + _lockTime;
-                _tracks[i].train.start();
-                lockSemaphores(i);
-            } else if (_tracks[i].sensor.isJustCovered()) {
-                _tracks[i].train.stop();
-            }
+        if (!_tracks[i]->isTrainPresent()) {
+            continue;
+        }
+
+        Train *train = _tracks[i]->getTrain();
+        if (!train) {
+            continue;
+        }
+        
+        if (isFree()) {
+            _allow(train);
+            _tracks[i]->sleep(_lockTime);
+        } else if (_tracks[i]->hasJustArrived()) {
+            train->stop();
         }
     }
 }
 
-void Merger::unlockSemaphores()
+bool Merger::isAllowing()
 {
-    for (byte i = 0; i < _nrTracks; ++i) {
-        _tracks[i].semaphore.unlock();
-    }
+    return _isAllowing;
 }
 
-void Merger::lockSemaphores(byte except)
+bool Merger::isFree()
 {
-    for (byte i = 0; i < _nrTracks; ++i) {
-        if (i != except) {
-            _tracks[i].semaphore.lock();
-        }
-    }
+    return !_isAllowing;
+}
+
+bool Merger::isJustAllowing()
+{
+    return _isAllowing && !_wasAllowing;
+}
+
+bool Merger::isJustFreed()
+{
+    return !_isAllowing && _wasAllowing;
+}
+
+bool Merger::isJustChanged()
+{
+    return _isAllowing != _wasAllowing;
+}
+
+void Merger::_allow(Train *train)
+{
+    _lock();
+    train->start();
+    _lastTrain = train;
+}
+
+void Merger::_lock()
+{
+    _unlockTimeout = millis() + _lockTime;
+    _wasAllowing = false;
+    _isAllowing = true;
+}
+
+bool Merger::_canUnlock()
+{
+    return _unlockTimeout && millis() > _unlockTimeout;
+}
+
+void Merger::_unlock()
+{
+    _unlockTimeout = 0;
+    _isAllowing = false;
 }

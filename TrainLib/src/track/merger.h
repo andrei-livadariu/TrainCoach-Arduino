@@ -4,7 +4,6 @@
 #include "track\checkpoint.h"
 #include "trains\train.h"
 #include "sensors\lightsensor.h"
-#include "signals\semaphore.h"
 
 class Merger
 {

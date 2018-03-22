@@ -4,7 +4,6 @@
 #include <motors\legoinfraredmotor.h>
 #include <trains\train.h>
 #include <sensors\lightsensor.h>
-#include <signals\semaphore.h>
 #include <track\merger.h>
 #include <motors\motorcontroller.h>
 #include <track\trackswitch.h>

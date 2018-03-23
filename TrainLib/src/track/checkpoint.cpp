@@ -30,7 +30,7 @@ void Checkpoint::loop()
 
 bool Checkpoint::isSleeping()
 {
-    return _sleepTimeout && millis() <= _sleepTimeout;
+    return _sleepTimer.isRunning();
 }
 
 void Checkpoint::sleep()
@@ -41,13 +41,13 @@ void Checkpoint::sleep()
 
 void Checkpoint::sleep(unsigned long time)
 {
-    _sleepTimeout = millis() + time;
+    _sleepTimer.start(time);
     _sensor.sleep(time);
 }
 
 void Checkpoint::wake()
 {
-    _sleepTimeout = 0;
+    _sleepTimer.reset();
     _sensor.wake();
 }
 

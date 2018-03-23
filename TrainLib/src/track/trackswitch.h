@@ -2,6 +2,7 @@
 #define TRAINLIB_TRACKSWITCH_H
 
 #include "motors\imotor.h"
+#include "utilities\timer.h"
 
 class TrackSwitch
 {
@@ -27,8 +28,7 @@ class TrackSwitch
         static const byte DefaultNrTracks = 2;
         static const unsigned long DefaultRunningTime = 250;
 
-        const unsigned long _runningTime;
-        unsigned long _stopTimeout = 0;
+        Timer _runningTimer;
 
         IMotor &_motor;
         const MotorDirection _motorDirection;

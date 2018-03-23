@@ -4,6 +4,7 @@
 #include "track\checkpoint.h"
 #include "trains\train.h"
 #include "sensors\lightsensor.h"
+#include "utilities\timer.h"
 
 class Merger
 {
@@ -24,17 +25,15 @@ class Merger
 
         void loop();
     private:
+        Timer _lockTimer;
         Checkpoint **_tracks;
         Train *_lastTrain = nullptr;
-        unsigned long _lockTime;
-        unsigned long _unlockTimeout = 0;
         byte _nrTracks;
         bool _isAllowing = false;
         bool _wasAllowing = false;
 
         void _allow(Train *train);
         void _lock();
-        bool _canUnlock();
         void _unlock();
 };
 

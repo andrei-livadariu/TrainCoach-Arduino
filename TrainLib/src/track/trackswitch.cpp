@@ -13,7 +13,7 @@ TrackSwitch::TrackSwitch(IMotor &motor, bool mirrored, byte nrTracks)
 {}
 
 TrackSwitch::TrackSwitch(IMotor &motor, bool mirrored, byte nrTracks, unsigned long runningTime)
-    : _motor(motor), _nrTracks(nrTracks), _runningTime(runningTime),
+    : _motor(motor), _nrTracks(nrTracks), _runningTimer(runningTime),
     _motorDirection(mirrored ? MotorDirection::Backward : MotorDirection::Forward)
 {
     _reset();
@@ -26,7 +26,7 @@ byte TrackSwitch::getNrTracks()
 
 unsigned long TrackSwitch::getRunningTime()
 {
-    return _runningTime;
+    return _runningTimer.getDuration();
 }
 
 byte TrackSwitch::getCurrentTrack()
@@ -50,10 +50,10 @@ bool TrackSwitch::isMirrored()
 }
 
 void TrackSwitch::loop()
-{
-    if (_stopTimeout && millis() > _stopTimeout) {
+{   
+    if (_runningTimer.isDone()) {
         _motor.stop();
-        _stopTimeout = 0;
+        _runningTimer.reset();
     }
 }
 
@@ -81,6 +81,6 @@ void TrackSwitch::_reset()
 
 void TrackSwitch::_run(byte ticks, MotorDirection direction)
 {
-    _stopTimeout = millis() + _runningTime * ticks;
+    _runningTimer.tick(ticks);
     _motor.start(static_cast<MotorDirection>((char) _motorDirection * (char) direction));
 }

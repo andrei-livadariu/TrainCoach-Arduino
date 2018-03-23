@@ -30,7 +30,7 @@ Train* LightSensor::getTrain()
 
 bool LightSensor::isSleeping()
 {
-    return _sleepTimeout && millis() <= _sleepTimeout;
+    return _sleepTimer.isRunning();
 }
 
 void LightSensor::sleep()
@@ -40,13 +40,13 @@ void LightSensor::sleep()
 
 void LightSensor::sleep(unsigned long time)
 {
-    _sleepTimeout = millis() + time;
+    _sleepTimer.start(time);
     _isCovered = false;
 }
 
 void LightSensor::wake()
 {
-    _sleepTimeout = 0;
+    _sleepTimer.reset();
 }
 
 bool LightSensor::isClear()

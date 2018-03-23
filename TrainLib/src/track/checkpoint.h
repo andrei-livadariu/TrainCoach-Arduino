@@ -5,6 +5,7 @@
 
 #include "sensors\lightsensor.h"
 #include "trains\train.h"
+#include "utilities\timer.h"
 
 class Checkpoint
 {
@@ -27,10 +28,9 @@ class Checkpoint
         bool hasJustChanged();
 
     private:
+        Timer _sleepTimer;
         LightSensor &_sensor;
         Train *_train;
-
-        unsigned long _sleepTimeout = 0;
 
         void _updateTrain();
 };

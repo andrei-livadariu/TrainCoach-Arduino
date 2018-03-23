@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "trains\train.h"
+#include "utilities\timer.h"
 
 class LightSensor
 {
@@ -26,9 +27,10 @@ class LightSensor
         bool isJustChanged();
 
     private:
+        Timer _sleepTimer;
+
         const byte _pin;
         const int _threshold;
-        unsigned long _sleepTimeout = 0;
         bool _isCovered = false;
         bool _wasCovered = false;
 

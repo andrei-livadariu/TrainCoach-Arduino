@@ -5,7 +5,7 @@ Merger::Merger(Checkpoint *tracks[], byte nrTracks)
 {}
 
 Merger::Merger(Checkpoint *tracks[], byte nrTracks, unsigned long lockTime)
-    : _tracks(tracks), _nrTracks(nrTracks), _lockTime(lockTime)
+    : _tracks(tracks), _nrTracks(nrTracks), _lockTimer(lockTime)
 {}
 
 Train* Merger::getLastTrain()
@@ -17,7 +17,7 @@ void Merger::loop()
 {
     _wasAllowing = _isAllowing;
 
-    if (_canUnlock()) {
+    if (_lockTimer.isDone()) {
         _unlock();
     }
 
@@ -33,7 +33,7 @@ void Merger::loop()
         
         if (isFree()) {
             _allow(train);
-            _tracks[i]->sleep(_lockTime);
+            _tracks[i]->sleep(_lockTimer.getDuration());
         } else if (_tracks[i]->hasJustArrived()) {
             train->stop();
         }
@@ -74,18 +74,13 @@ void Merger::_allow(Train *train)
 
 void Merger::_lock()
 {
-    _unlockTimeout = millis() + _lockTime;
+    _lockTimer.start();
     _wasAllowing = false;
     _isAllowing = true;
 }
 
-bool Merger::_canUnlock()
-{
-    return _unlockTimeout && millis() > _unlockTimeout;
-}
-
 void Merger::_unlock()
 {
-    _unlockTimeout = 0;
+    _lockTimer.reset();
     _isAllowing = false;
 }

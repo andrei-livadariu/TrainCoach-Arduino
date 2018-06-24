@@ -1,6 +1,6 @@
 #include <Reactduino.h>
 
-#include <TrainLib.h>
+#include <TrainCoach.h>
 #include <motors\legoinfraredmotor.h>
 #include <trains\train.h>
 #include <sensors\lightsensor.h>

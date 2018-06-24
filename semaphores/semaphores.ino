@@ -1,6 +1,6 @@
 #include <Reactduino.h>
 
-#include <TrainLib.h>
+#include <TrainCoach.h>
 #include <signals\binary\ibinarysignal.h>
 #include <signals\binary\binarysignalset.h>
 #include <signals\binary\constantsignal.h>
